@@ -42,6 +42,8 @@ namespace UnityEditor.AddressableAssets.Build
             var splitName = assembly.FullName.Split(',');
             return splitName.Length > 0 && editorAssemblies.Contains(splitName[0]);
         }
+        
+        public static Func<string, string, string> CustomRenameWithHashNaming { get; set; } = (hash, sourceBundleName) => GetNameWithHashNaming(BundledAssetGroupSchema.BundleNamingStyle.NoHash, hash, sourceBundleName);
 
         /// <summary>
         /// Creates a new bundle name using its hash and a given naming style.
@@ -66,6 +68,9 @@ namespace UnityEditor.AddressableAssets.Build
                 case BundledAssetGroupSchema.BundleNamingStyle.FileNameHash:
                     result = HashingMethods.Calculate(result) + ".bundle";
                     break;
+                case BundledAssetGroupSchema.BundleNamingStyle.Custom:
+                    result = CustomRenameWithHashNaming(hash, sourceBundleName);
+                    break;                    
             }
 
             return result;
