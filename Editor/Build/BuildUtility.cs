@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor.AddressableAssets.Settings.GroupSchemas;
 using UnityEditor.Build.Pipeline.Utilities;
@@ -43,6 +44,8 @@ namespace UnityEditor.AddressableAssets.Build
             return splitName.Length > 0 && editorAssemblies.Contains(splitName[0]);
         }
 
+        public static Func<string, string, string> CustomRenameWithHashNaming { get; set; } = (hash, sourceBundleName) => GetNameWithHashNaming(BundledAssetGroupSchema.BundleNamingStyle.NoHash, hash, sourceBundleName);
+
         /// <summary>
         /// Creates a new bundle name using its hash and a given naming style.
         /// </summary>
@@ -66,6 +69,10 @@ namespace UnityEditor.AddressableAssets.Build
                 case BundledAssetGroupSchema.BundleNamingStyle.FileNameHash:
                     result = HashingMethods.Calculate(result) + ".bundle";
                     break;
+                case BundledAssetGroupSchema.BundleNamingStyle.Custom:
+                    result = CustomRenameWithHashNaming(hash, sourceBundleName);
+                    break;
+
             }
 
             return result;
