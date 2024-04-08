@@ -43,7 +43,7 @@ namespace UnityEditor.AddressableAssets.Build
             return splitName.Length > 0 && editorAssemblies.Contains(splitName[0]);
         }
         
-        public static Func<string, string, string> CustomRenameWithHashNaming { get; set; } = (hash, sourceBundleName) => GetNameWithHashNaming(BundledAssetGroupSchema.BundleNamingStyle.NoHash, hash, sourceBundleName);
+        public static System.Func<string, string, string> CustomRenameWithHashNaming { get; set; } = (hash, sourceBundleName) => GetNameWithHashNaming(BundledAssetGroupSchema.BundleNamingStyle.NoHash, hash, sourceBundleName);
 
         /// <summary>
         /// Creates a new bundle name using its hash and a given naming style.
